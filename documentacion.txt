@@ -1,0 +1,8 @@
+*   Sistema de Facturacion 2018 en PHP MYSQL Bootstrap 4
+
+
+descripcion: 
+
+Un simple sistema de facturación el cual podra registrar clientes, registrar productos
+registrar usuarios del sistema, emitir facturas para los clientes, registrar cupones, se podran categorizar los productos,
+ 
