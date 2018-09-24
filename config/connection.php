@@ -6,5 +6,7 @@
 		echo 'Imposible establecer la conexion : ',$e->getMessage();
 		die();
 	}
+	
+	
 
  ?>
