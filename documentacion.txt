@@ -5,4 +5,9 @@ descripcion:
 
 Un simple sistema de facturación el cual podra registrar clientes, registrar productos
 registrar usuarios del sistema, emitir facturas para los clientes, registrar cupones, se podran categorizar los productos,
+
+/**
+
+	tasks: 
+		- realizar validaciones de disponibilidad de usuario y correo con ajax  en el registro del usuario
  

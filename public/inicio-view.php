@@ -1,31 +1,87 @@
+<?php session_start(); ?>
+<?php $ds = DIRECTORY_SEPARATOR;
+
+$base_dir = realpath(dirname(__FILE__)  . $ds . '..') . $ds;
+
+require_once("{$base_dir}config{$ds}connection.php");
+
+require_once("{$base_dir}config{$ds}db.php");
+require_once("{$base_dir}class{$ds}user.php");
+require_once("{$base_dir}class{$ds}error.php");
+?>
+<?php if (isset($_POST['submit'])) 
+  {  
+      try{
+
+        $user = new User();
+        $err = new Errors();
+
+        $usernameEmail = $_POST['userdata'];
+        $password = $_POST['password'];
+
+        $errores = $err->comp_errores(array('nombre o correo'=>$usernameEmail,'contraseña'=>$password));
+
+        if (empty($errores)) {
+          if ($user->log_in($usernameEmail,$password)) {
+            header('Location: dashboard');
+          }
+        }
+       
+       
+
+      }catch(Exception $e){
+
+      }
+  } 
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Factusys | Iniciar Sesion</title>
+	<title><?php echo APP_NAME ?> | Iniciar Sesion</title>
 	<link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="public/assets/css/iniciar-sesion.css">
 </head>
 
 <body>
 
-  <div>
-    <span> <a href="home">Volver al Inicio</a> </span>  
-  </div>
-	<form class="form-signin">
+   
+  
+	<form class="form-signin" method="POST" action="inicio">
+
+      <?php if (!empty($errores)): ?>
+          <div class="alert alert-danger" role="alert">
+
+           <ul>
+             <?php foreach ($errores as $key => $value) {
+                echo '<li>'.$value.'</li>';
+               } 
+             ?>
+           </ul>
+          </div>
+        <?php endif ?>
+      <div style="text-align: center;"> <a href="home">Volver al Inicio</a> </div>  
 
       <img class="mb-4" src="https://images-na.ssl-images-amazon.com/images/I/41Y4fyn7HAL.png" alt="" width="72" height="72">
+
       <h1 class="h3 mb-3 font-weight-normal">Factusys</h1>
-      <label for="inputEmail" class="sr-only">Email address</label>
-      <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-      <label for="inputPassword" class="sr-only">Password</label>
-      <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+
+      <label for="inputEmail" class="sr-only">Correo o Nombre de Usuario</label>
+      
+      <input type="text" name="userdata" id="inputEmail" class="form-control" placeholder="Ingresa tu correo o nombre de usuario"  autofocus>
+
+      <label for="inputPassword" class="sr-only">Contraseña</label>
+      
+      <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Contraseña">
+
       <div class="checkbox mb-3">
         <label>
           <input type="checkbox" value="remember-me">Recordar mi contraseña
         </label>
       </div>
-      <button class="btn btn-lg btn-primary btn-block" type="submit">Iniciar Sesion</button>
+
+      <input name="submit" class="btn btn-lg btn-primary btn-block" type="submit" value="Iniciar">
     </form>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

@@ -4,10 +4,6 @@ body {
   text-align: center;
 }
 
-body {
-
-}
-
     .form-signin {
       width: 100%;
       max-width: 50vw;
@@ -15,7 +11,7 @@ body {
       margin: 0 auto;
       background-color: whitesmoke;
     }
-@media screen and(max-width: 350px){
+@media screen and (max-width: 350px){
 
     .form-signin {
       width: 100%;
