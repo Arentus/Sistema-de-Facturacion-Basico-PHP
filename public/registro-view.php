@@ -1,20 +1,18 @@
-<?php session_start(); ?>
-<?php include_once 'config/connection.php'; ?>
-<?php include_once 'class/user.php'; ?>
-<?php include_once 'class/error.php'; ?>
+<?php include_once 'config/connection.php'; 
+ include_once 'class/user.php'; 
+ include_once 'class/error.php'; 
+ ?>
 
-<?php 
-/*
-if (User::user_is_loggedin()){
-	exit();
-}*/
-?>
-
+<?php if (User::userIsAuth()) {
+    header('Location: dashboard');
+    
+    $_SESSION['message'] = 'Tsss! Parece que ya haz iniciado sesión ... ¿Quieres <a href="logout" value="salir">Salir</a> ? ';
+} ?>
 <?php 
 
 	if (isset($_POST['submit'])) {	
 
-		$name = htmlspecialchars($_POST['name']);
+		$name = htmlspecialchars(trim($_POST['name']));
 		$email = htmlspecialchars($_POST['email']);
 		$password = htmlspecialchars(trim($_POST['password']));
 		$address = htmlspecialchars($_POST['address']);
@@ -63,11 +61,24 @@ if (User::user_is_loggedin()){
 </head>
 
 <body>
-	
-	<div>
-		<span> <a href="home">Volver al Inicio</a> </span>	
-	</div>
-
+	<nav class="navbar navbar-expand-md navbar-light mb-4">
+      <a class="navbar-brand" href="#"><img class="img-fluid" src="https://images-na.ssl-images-amazon.com/images/I/41Y4fyn7HAL.png" width="35" height="35" style="margin-right: 5px" alt="">Factusys</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="home">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="inicio">Iniciar Sesion</a>
+          </li>
+        </ul>
+        
+      </div>
+    </nav>
+   
 	<div class="container">
 		<div class="row">
 			<form class="form-signin" method="POST" action="registro">

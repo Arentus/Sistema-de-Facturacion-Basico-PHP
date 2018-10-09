@@ -1,4 +1,3 @@
-<?php session_start(); ?>
 <?php $ds = DIRECTORY_SEPARATOR;
 
 $base_dir = realpath(dirname(__FILE__)  . $ds . '..') . $ds;
@@ -9,6 +8,13 @@ require_once("{$base_dir}config{$ds}db.php");
 require_once("{$base_dir}class{$ds}user.php");
 require_once("{$base_dir}class{$ds}error.php");
 ?>
+
+<?php if (User::userIsAuth()) {
+    header('Location: dashboard');
+    $_SESSION['message'] = 'Tsss! Parece que ya haz iniciado sesión ... ¿Quieres <a href="logout" value="salir">Salir</a> ? ';
+}  
+ ?>
+
 <?php if (isset($_POST['submit'])) 
   {  
       try{
@@ -41,14 +47,36 @@ require_once("{$base_dir}class{$ds}error.php");
 	<meta charset="UTF-8">
 	<title><?php echo APP_NAME ?> | Iniciar Sesion</title>
 	<link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.css">
-	<link rel="stylesheet" type="text/css" href="public/assets/css/iniciar-sesion.css">
+	<link rel="stylesheet" type="text/css" href="public/assets/css/registro.css">
 </head>
 
 <body>
+    <?php if (isset($_SESSION['message'])): ?>
+        <div id="logedalert" style="background-color: black; color: white; padding: 1em; position: relative;"><?php echo $_SESSION['message']; unset($_SESSION['message']); ?>
+        </div>
+      <?php endif ?>
+   <nav class="navbar navbar-expand-md navbar-light mb-4">
+      <a class="navbar-brand" href="#"><img class="img-fluid" src="https://images-na.ssl-images-amazon.com/images/I/41Y4fyn7HAL.png" width="35" height="35" style="margin-right: 5px" alt="">Factusys</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="home">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="registro">Registrarse</a>
+          </li>
+        </ul>
+        
+      </div>
+    </nav>
 
-   
-  
-	<form class="form-signin" method="POST" action="inicio">
+    <div class="container">
+      <div class="row">
+        
+  <form class="form-signin" method="POST" action="inicio">
 
       <?php if (!empty($errores)): ?>
           <div class="alert alert-danger" role="alert">
@@ -61,12 +89,9 @@ require_once("{$base_dir}class{$ds}error.php");
            </ul>
           </div>
         <?php endif ?>
-      <div style="text-align: center;"> <a href="home">Volver al Inicio</a> </div>  
+     
 
-      <img class="mb-4" src="https://images-na.ssl-images-amazon.com/images/I/41Y4fyn7HAL.png" alt="" width="72" height="72">
-
-      <h1 class="h3 mb-3 font-weight-normal">Factusys</h1>
-
+      <h1>Iniciar Sesion</h1>
       <label for="inputEmail" class="sr-only">Correo o Nombre de Usuario</label>
       
       <input type="text" name="userdata" id="inputEmail" class="form-control" placeholder="Ingresa tu correo o nombre de usuario"  autofocus>
@@ -83,7 +108,9 @@ require_once("{$base_dir}class{$ds}error.php");
 
       <input name="submit" class="btn btn-lg btn-primary btn-block" type="submit" value="Iniciar">
     </form>
-
+    
+      </div>
+    </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 	<script type="text/javascript" src="node_modules/bootstrap/dist/js/bootstrap.js"></script>	

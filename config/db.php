@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <?php
 	/* 7:46 pm -- Factusys | Config.php  */
 

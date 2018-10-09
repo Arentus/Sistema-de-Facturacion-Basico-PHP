@@ -6,14 +6,18 @@ $base_dir = realpath(dirname(__FILE__)  . $ds . '..') . $ds;
 require_once("{$base_dir}config{$ds}db.php");
 
 class User{
+
 	public $nombre;
 	private $correo;
 	private $password;
 	private $direccion;
 
-	public static function user_is_loggedin(){
-		if (!empty($_SESSION['user_id'])) {
-			header('Location: '.BASE_URL.'home');
+	public static function userIsAuth(){
+		if (!isset($_SESSION)) {
+			session_start();
+		}
+		if (isset($_SESSION['user_data'])) {
+			return true;
 		}
 	}
 
@@ -40,7 +44,6 @@ class User{
 			
 			if ($count) {
 				$_SESSION['user_data'] = $user_data;
-				$_SESSION['user_id'] = $user_data->id;
 				return true;
 
 			}else{

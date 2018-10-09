@@ -1,4 +1,3 @@
-<?php session_start(); ?>
 <?php include_once 'config/db.php'; ?>
 
 <!DOCTYPE html>
@@ -10,11 +9,13 @@
 	<title><?php echo APP_NAME; ?> | Inicio</title>
 
 	<link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.css">
+  
 
 </head>
 <body>
 	
-	<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+	
+<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
       <a class="navbar-brand" href="#"><img class="img-fluid" src="https://images-na.ssl-images-amazon.com/images/I/41Y4fyn7HAL.png" width="35" height="35" style="margin-right: 5px" alt="">Factusys</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -34,12 +35,12 @@
         
       </div>
     </nav>
-
     <main role="main" class="container">
       <div class="jumbotron">
-        <h1>Welcome to Factusys</h1>
-        <p class="lead">This example is a quick exercise to illustrate how the top-aligned navbar works. As you scroll, this navbar remains in its original position and moves with the rest of the page.</p>
-        <a class="btn btn-lg btn-primary" href="../../components/navbar/" role="button">Sign Up &raquo;</a>
+        <h1>Bienvenido a Factusys</h1>
+        <p class="lead">Un simple sistema de facturación el cual podra registrar clientes, registrar productos
+registrar usuarios del sistema, emitir facturas para los clientes, registrar cupones, categorizar productos y mas.</p>
+        <a class="btn btn-lg btn-primary" href="inicio" role="button">Iniciar Sesion &raquo;</a>
       </div>
     </main>
 
