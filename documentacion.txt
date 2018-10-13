@@ -6,6 +6,12 @@ descripcion:
 Un simple sistema de facturación el cual podra registrar clientes, registrar productos
 registrar usuarios del sistema, emitir facturas para los clientes, registrar cupones, se podran categorizar los productos,
 
+//** descripcion de roles en sistema 
+roles [
+	0 --- usuario administrador 
+	1 --- usuario empleado 
+	2 --- usuario cliente
+]
 /**
 
 	tasks: 

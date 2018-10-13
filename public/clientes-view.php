@@ -1,4 +1,4 @@
-<?
+<?php
 $ds = DIRECTORY_SEPARATOR;
 
 $base_dir = realpath(dirname(__FILE__)  . $ds . '..') . $ds;
@@ -113,23 +113,86 @@ require_once("{$base_dir}config{$ds}db.php");
       <h2>Añadir Cliente</h2>
     </div>
     <div class="modal-body">
-    	<form >
+		<div class="errors-feedback" style="background-color: red; color: white;"><ul id="errors-feedback"></ul></div>
+    	<form id="addClientForm" method="POST" action="">
     		<h4>Nombre</h4>
-    		<input name="name" class="form-control form-control" type="text" placeholder="Buscar...">
+    		<input id="name" name="name" class="form-control form-control" type="text" placeholder="Buscar..." required minlength="3">
+    		<span id="username-availability"></span>
 			<h4>Correo</h4>
-    		<input name="email" class="form-control form-control" type="text" placeholder="Buscar...">
+    		<input id="email" name="email" class="form-control form-control" type="text" placeholder="Buscar..." required minlength="5">
 			<h4>Direccion</h4>
-    		<input name="dir" class="form-control form-control" type="text" placeholder="Buscar...">
+    		<input id="address" name="address" class="form-control form-control" type="text" placeholder="Buscar..." required minlength="20">
+    		<h3>
+    		<input id="addCustom" type="submit" class="btn btn-success" value="Añadir">
+    		</h3>
     	</form>
-    </div>
-    <div class="modal-footer">
-      <h3><button class="btn btn-sm btn-default">Añadir</button></h3>
+
     </div>
   </div>
 
 </div>
-
+  <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="node_modules/bootstrap/dist/js/bootstrap.js"></script>  
 <script>
+
+/*===================================
+|   ajax scripts
+|=======================================*/
+
+$("#addClientForm").on('submit',function(e){
+
+  e.preventDefault();
+
+  $.ajax({
+    type : "POST",
+    data : $(this).serialize(),
+    dataType : "json",
+    url : "ajax/createUserHandler.php",
+    success : function(res){
+
+    	if(res == true){
+    		alert('Usuario agregado');
+    	}else{
+    		var feedback = '';
+    		res.forEach(function(err){
+    			feedback += '<li>'+err+'</li>';
+    		});
+
+    		$('#errors-feedback').html(feedback);
+    	}
+    }
+  });
+
+});
+
+$("#name").change(function(){
+	var username = $(this).val();
+	
+	if(username == ''){
+		$('#username-availability').html('');
+	}
+
+	$.ajax({
+		url : 'ajax/userExistsHandler.php',
+		method : "POST",
+		data : {name :username },
+		dataType : "json",
+		success: function(res){
+				console.log(res);
+				res ? $('#username-availability').html('Disponible') : $('#username-availability').html('No disponible');
+		}
+	});
+});
+
+
+/*===================================
+|   modal scripts
+|=======================================*/
+
 // Get the modal
 var modal = document.getElementById('myModal');
 

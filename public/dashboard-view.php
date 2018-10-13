@@ -1,10 +1,11 @@
-<?$ds = DIRECTORY_SEPARATOR;
+<?php $ds = DIRECTORY_SEPARATOR;
 
 $base_dir = realpath(dirname(__FILE__)  . $ds . '..') . $ds;
 
 require_once("{$base_dir}config{$ds}db.php");
 
 ?>
+
 <?php require_once 'class/user.php'; ?>
 
 

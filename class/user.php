@@ -1,4 +1,5 @@
 <?php 
+
 $ds = DIRECTORY_SEPARATOR;
 
 $base_dir = realpath(dirname(__FILE__)  . $ds . '..') . $ds;
@@ -11,6 +12,12 @@ class User{
 	private $correo;
 	private $password;
 	private $direccion;
+	private $db;
+	private $table;
+	public function __construct(){
+		$this->db = getDB();
+		$this->table = 'usuario';
+	}
 
 	public static function userIsAuth(){
 		if (!isset($_SESSION)) {
@@ -25,11 +32,9 @@ class User{
 
 		try{
 
-			$db = getDB();	
-
 			$hashed_password = hash('sha256',$password);
 			
-			$stmt = $db->prepare("SELECT * FROM usuario WHERE (nombre=:data OR correo=:data) AND password=:hashed_password");
+			$stmt = $this->db->prepare("SELECT * FROM usuario WHERE (nombre=:data OR correo=:data) AND password=:hashed_password");
 
 			$stmt->bindParam(":data",$data,PDO::PARAM_STR);
 			$stmt->bindParam(":hashed_password",$hashed_password,PDO::PARAM_STR);
@@ -38,7 +43,7 @@ class User{
 
 			$count = $stmt->rowCount();
 			$user_data = $stmt->fetch(PDO::FETCH_OBJ);
-			$db = null;
+			$this->db = null;
 
 			var_dump($user_data);
 			
@@ -56,9 +61,8 @@ class User{
 
 	public function username_exists($name){
 		try{
-			$db_conexion = getDB();
 			
-			$stmt = $db_conexion->prepare("SELECT * FROM usuario WHERE nombre=:name");
+			$stmt = $this->db->prepare("SELECT * FROM usuario WHERE nombre=:name");
 			
 			$stmt->bindParam(":name",$name,PDO::PARAM_STR);
 
@@ -72,13 +76,11 @@ class User{
 
 	}
 
-	public function create_user($nombre,$correo,$password,$role=1,$direccion){
+	public function create_user($nombre,$correo,$password,$role=2,$direccion){
 		
 		try{
 
-			$db_conexion  = getDB();
-			
-			$statement = $db_conexion->prepare("SELECT id FROM usuario WHERE correo=:correo"); 
+			$statement = $this->db->prepare("SELECT id FROM usuario WHERE correo=:correo"); 
 
 			$statement->bindParam(":correo", $correo,PDO::PARAM_STR);
 			
@@ -99,16 +101,16 @@ class User{
 				
 				$statement->execute();
 
-				$user_id = $db_conexion->lastInsertId();	
+				$user_id = $this->db->lastInsertId();	
 
 				$_SESSION['user_id'] = $user_id;
 
-				$db_conexion =null; /* se cierra la conexion*/
+				$this->db =null; /* se cierra la conexion*/
 				return $user_id;
 
 			}else{
 	
-				$db_conexion  = null; /* se cierra la conexion */
+				$this->db  = null; /* se cierra la conexion */
 				return false;
 			}
 

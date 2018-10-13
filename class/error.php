@@ -53,5 +53,45 @@
 			}
 		}
 
+		public function dataExists($data_type,$data){
+					
+			switch ($data_type) {
+					case 'nombre':
+						try{
+							$db_conexion = getDB();
+							
+							if (!$nRows = $db_conexion->query("SELECT * FROM usuario WHERE nombre='".$data."';")->fetchColumn()) {
+
+								echo 'true';
+							}else{
+								echo 'false';
+							}
+
+						}catch(PDOException $e){
+							echo "Erorr comprobando usuario : ".$e->getMessage();
+						}
+						break;
+					
+					case 'correo':
+					try{
+			
+							$db_conexion = getDB();
+							
+							if (!$nRows = $db_conexion->query("SELECT * FROM usuario WHERE correo='".$data."';")->fetchColumn()) {
+
+								echo 'true';
+							}else{
+								echo 'false';
+							}
+
+						}catch(PDOException $e){
+							echo "Erorr comprobando usuario : ".$e->getMessage();
+						}
+					default:
+						# code...
+						break;
+				}	
+		}
 	}
+	
 ?>
