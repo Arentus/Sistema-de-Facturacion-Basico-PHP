@@ -202,8 +202,8 @@ $("#email").change(function(){
 		data : {email :email},
 		dataType : "json",
 		success: function(res){
-				console.log(res);
-				res ? $('#email-availability').html('Disponible') : $('#email-availability').html('No disponible');
+				$('#email-availability').html(res);
+								res ? $('#email-availability').html('Disponible') : $('#email-availability').html('No disponible');
 		}
 	});
 });
