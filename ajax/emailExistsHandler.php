@@ -5,8 +5,7 @@
 <?php 
 
 	$tp = new Errors();
-
-	$res = $tp->dataExists('correo',$_POST['correo']);
+	$res = $tp->dataExists('correo',$_POST['email']);
 
 	echo $res;
  ?>
