@@ -3,9 +3,10 @@
 <?php include_once '../class/error.php'; ?>
 
 <?php 
-	
-	$tp = new Errors();
-	$checklist = array('nombre' => $_POST['name']);
 
-	$errors = $tp->comp_errores($checklist)
+	$tp = new Errors();
+
+	$res = $tp->dataExists('correo',$_POST['correo']);
+
+	echo $res;
  ?>

@@ -120,6 +120,7 @@ require_once("{$base_dir}config{$ds}db.php");
     		<span id="username-availability"></span>
 			<h4>Correo</h4>
     		<input id="email" name="email" class="form-control form-control" type="text" placeholder="Buscar..." required minlength="5">
+    		<span id="email-availability"></span>
 			<h4>Direccion</h4>
     		<input id="address" name="address" class="form-control form-control" type="text" placeholder="Buscar..." required minlength="20">
     		<h3>
@@ -188,6 +189,24 @@ $("#name").change(function(){
 	});
 });
 
+$("#email").change(function(){
+	var email = $(this).val();
+	
+	if(email == ''){
+		$('#email-availability').html('');
+	}
+
+	$.ajax({
+		url : 'ajax/emailExistsHandler.php',
+		method : "POST",
+		data : {email :email},
+		dataType : "json",
+		success: function(res){
+				console.log(res);
+				res ? $('#email-availability').html('Disponible') : $('#email-availability').html('No disponible');
+		}
+	});
+});
 
 /*===================================
 |   modal scripts
