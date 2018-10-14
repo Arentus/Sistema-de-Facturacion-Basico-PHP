@@ -4,6 +4,7 @@ $ds = DIRECTORY_SEPARATOR;
 $base_dir = realpath(dirname(__FILE__)  . $ds . '..') . $ds;
 
 require_once("{$base_dir}config{$ds}db.php");
+require_once("{$base_dir}config{$ds}connection.php");
 
 ?>
 
@@ -66,13 +67,24 @@ require_once("{$base_dir}config{$ds}db.php");
 	<div class="container">
 
 		<div class="row">
+			
 			<div class="cb-search col-md-3 col-sm-12">
 				<h4><i class="fas fa-search"></i>Buscar clientes</h4>
+				
 				<hr>
-				<input class="form-control form-control-lg" type="text" placeholder="Buscar...">
+				<form method="POST" action="">
+					
+					<input type="text" id="search_custom" name="squery" class="form-control form-control-lg"  placeholder="Buscar...">
+				</form>
+
+				<br>
+
+
 				<hr>
 				
 			</div>
+
+
 			<div class="col-md-9 col-sm-12">
 				<table class="table table-dark">
 				  <thead>
@@ -83,15 +95,63 @@ require_once("{$base_dir}config{$ds}db.php");
 				      <th scope="col">Direccion</th>
 				    </tr>
 				  </thead>
-				  <tbody>
-				    <tr>
-				      <th scope="row">1</th>
-				      <td>Mark</td>
-				      <td>mark@mail.com</td>
-				      <td>En el coñoelamadre</td>
-				    </tr>
-				   
-				  </tbody>
+				<tbody class="clientesData">
+				    
+			  <?php 
+				  	$db = getDB();
+
+					$result = $db->query("SELECT COUNT(*) as clientes_totales FROM usuario WHERE role = 2");
+
+					//hay clientes
+					if ($nClientes = $result->fetchColumn()) {
+							
+							$nPaginas = ceil( $nClientes / N_CLIENTES_BYPAGE );
+
+							$sql = 'SELECT * FROM usuario WHERE role = 2 ORDER BY id ASC LIMIT 0 , '.N_CLIENTES_BYPAGE;
+
+							$resultClientes = $db->query($sql);
+
+							if ($resultClientes->rowCount()>0) {
+								
+									$arrClientes = $resultClientes->fetchAll();
+
+									foreach ($arrClientes as $cliente	) {
+										echo '<tr>';
+								
+										echo '<td>'.$cliente['id'].'</td>';
+
+										echo '<td>'.$cliente['nombre'].'</td>';
+
+										echo '<td>'.$cliente['correo'].'</td>';
+
+										echo '<td>'.$cliente['direccion'].'</td>';
+
+										echo '</tr>';
+									}
+
+							}
+
+							if ($nPaginas > 1) {
+				        echo '<nav aria-label="Page navigation example">';
+				        echo '<ul class="pagination justify-content-end">';
+				 
+				        for ($i=1;$i<=$nPaginas;$i++) {
+				            $class_active = '';
+				            if ($i == 1) {
+				                $class_active = 'active';
+				            }
+				            echo '<li class="page-item '.$class_active.'"><a class="page-link" href="#" data="'.$i.'">'.$i.'</a></li>';
+				        }
+				 
+				        echo '</ul>';
+				        echo '</nav>';
+							}
+					}else{
+						echo 'No hay clientes registrados.';
+					}
+
+				?>
+					</tbody>
 				</table>
 		
 			</div>
@@ -138,73 +198,28 @@ require_once("{$base_dir}config{$ds}db.php");
   crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
   <script type="text/javascript" src="node_modules/bootstrap/dist/js/bootstrap.js"></script>  
+
+  <script type="text/javascript" src="public/assets/js/ajax.js"></script>
 <script>
 
 /*===================================
 |   ajax scripts
 |=======================================*/
 
-$("#addClientForm").on('submit',function(e){
+//replaced by js/ajax.js
 
-  e.preventDefault();
+$(document).ready(function(){
 
-  $.ajax({
-    type : "POST",
-    data : $(this).serialize(),
-    dataType : "json",
-    url : "ajax/createUserHandler.php",
-    success : function(res){
-
-    	if(res == true){
-    		alert('Usuario agregado');
-    	}else{
-    		var feedback = '';
-    		res.forEach(function(err){
-    			feedback += '<li>'+err+'</li>';
-    		});
-
-    		$('#errors-feedback').html(feedback);
-    	}
-    }
-  });
-
-});
-
-$("#name").change(function(){
-	var username = $(this).val();
-	
-	if(username == ''){
-		$('#username-availability').html('');
-	}
-
-	$.ajax({
-		url : 'ajax/userExistsHandler.php',
+	$("#search_custom").on('keyup',function(e){
+		//alert('escrito'+$(this).val());
+		$.ajax({
+		url : 'ajax/searchCliente.php',
 		method : "POST",
-		data : {name :username },
-		dataType : "json",
+		data : {squery :$(this).val()},
 		success: function(res){
-				console.log(res);
-				res ? $('#username-availability').html('Disponible') : $('#username-availability').html('No disponible');
+			$(".clientesData").fadeIn().html(res);
 		}
 	});
-});
-
-$("#email").change(function(){
-	var email = $(this).val();
-	
-	if(email == ''){
-		$('#email-availability').html('');
-	}
-
-	$.ajax({
-		url : 'ajax/emailExistsHandler.php',
-		method : "POST",
-		data : {email :email},
-		dataType : "json",
-		success: function(res){
-				$('#email-availability').html(res);
-								res ? $('#email-availability').html('Disponible') : $('#email-availability').html('No disponible');
-		}
 	});
 });
 

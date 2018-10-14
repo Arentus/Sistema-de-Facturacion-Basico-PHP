@@ -9,5 +9,6 @@
 	define('DB_PASSWORD', '');
 	define('DB_NAME', 'fac_db');
 	define('BASE_URL','http://localhost/factusys/');
-	
+	define('N_CLIENTES_BYPAGE',7);
+		
 ?>

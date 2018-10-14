@@ -40,7 +40,7 @@
 
 	
 		public function check_name($name){
-			return preg_match('/^[A-Za-z][A-Za-z0-9]{5,31}$/', $name);
+			return preg_match('/^[a-zA-Z\s]*$/', $name);
 		}
 
 		public function check_email($email){
