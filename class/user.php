@@ -8,12 +8,13 @@ require_once("{$base_dir}config{$ds}db.php");
 
 class User{
 
-	public $nombre;
+	private $nombre;
 	private $correo;
 	private $password;
 	private $direccion;
 	private $db;
 	private $table;
+
 	public function __construct(){
 		$this->db = getDB();
 		$this->table = 'usuario';
@@ -90,7 +91,7 @@ class User{
 
 			if($count<1) { /* usuario no registrado en base de datos */
 
-				$statement = $db_conexion ->prepare("INSERT INTO usuario (nombre,correo,password,role,direccion) VALUES (:nombre,:correo,:hashed_password,:role,:direccion)");
+				$statement = $this->db->prepare("INSERT INTO usuario (nombre,correo,password,role,direccion) VALUES (:nombre,:correo,:hashed_password,:role,:direccion)");
 
 				$statement->bindParam(":nombre",$nombre,PDO::PARAM_STR);
 				$statement->bindParam(":correo",$correo,PDO::PARAM_STR);

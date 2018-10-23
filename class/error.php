@@ -53,20 +53,20 @@
 			}
 		}
 
-		public function dataExists($data_type,$data){
+		public function dataExists($data_type,$data,$table='usuario'){
 
 			try{
 							
 				$db_conexion = getDB();
 				
-				if (!$nRows = $db_conexion->query("SELECT * FROM usuario WHERE ".$data_type."='".$data."';")->fetchColumn()) {
+				if (!$nRows = $db_conexion->query("SELECT * FROM ".$table." WHERE ".$data_type."='".$data."';")->fetchColumn()) {
 					return 'true';
 				}else{
 					return 'false';
 				}
 
 			}catch(PDOException $e){
-				return "Erorr comprobando usuario : ".$e->getMessage();
+				return "Erorr comprobando ".$table." : ".$e->getMessage();
 			}
 				
 		}	
