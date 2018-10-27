@@ -1,11 +1,5 @@
 <?php 
 
-$ds = DIRECTORY_SEPARATOR;
-
-$base_dir = realpath(dirname(__FILE__)  . $ds . '..') . $ds;
-
-require_once("{$base_dir}config{$ds}db.php");
-
 class Category{
 
 	private $nombre;
@@ -50,4 +44,15 @@ class Category{
 		}
 	}
 
+	public function getAllCategories(){
+		try{
+
+			$stmt = $this->db->query("SELECT * FROM ".$this->tabla." ORDER BY id_categoria ASC");
+
+			$result = $stmt->fetchAll();
+			return $result;
+		}catch(PDOException $e){
+			return "Categoria no agreada ".$e->getMessage();
+		}
+	}
 }

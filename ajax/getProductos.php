@@ -28,6 +28,8 @@ if (!empty($result)) {
         $html .= '<td>'.$producto['nombre_categoria'].'</td>';
         $html .= '<td>'.$producto['precio'].'</td>';
         $html .= '<td>'.$producto['stock'].'</td>';
+        $html .= '<td><button class="btn btn-success m-1 editar_producto" data-toggle="modal" data-target="#editModalCenter" value="'.$producto['id_producto'].'"><i class="far fa-edit"></i></button>';
+        $html .= '<button class="btn btn-danger" id="eliminar_producto" value="'.$producto['id_producto'].'"><i class="far fa-trash-alt"></button></td>';
         $html .= '</tr>';
     }
 

@@ -1,4 +1,5 @@
-<?php include_once 'config/connection.php'; 
+<?php 
+ include_once 'config/connection.php'; 
  include_once 'class/user.php'; 
  include_once 'class/error.php'; 
  ?>

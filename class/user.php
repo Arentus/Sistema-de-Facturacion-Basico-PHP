@@ -1,11 +1,5 @@
 <?php 
 
-$ds = DIRECTORY_SEPARATOR;
-
-$base_dir = realpath(dirname(__FILE__)  . $ds . '..') . $ds;
-
-require_once("{$base_dir}config{$ds}db.php");
-
 class User{
 
 	private $nombre;
@@ -39,7 +33,6 @@ class User{
 
 			$stmt->bindParam(":data",$data,PDO::PARAM_STR);
 			$stmt->bindParam(":hashed_password",$hashed_password,PDO::PARAM_STR);
-
 			$stmt->execute();
 
 			$count = $stmt->rowCount();

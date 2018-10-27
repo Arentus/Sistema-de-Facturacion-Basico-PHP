@@ -1,12 +1,8 @@
-<?php $ds = DIRECTORY_SEPARATOR;
-
-$base_dir = realpath(dirname(__FILE__)  . $ds . '..') . $ds;
-
-require_once("{$base_dir}config{$ds}connection.php");
-
-require_once("{$base_dir}config{$ds}db.php");
-require_once("{$base_dir}class{$ds}user.php");
-require_once("{$base_dir}class{$ds}error.php");
+<?php 
+require_once 'config/db.php';
+require_once 'config/connection.php';
+require_once 'class/error.php';
+require_once 'class/user.php';
 ?>
 
 <?php if (User::userIsAuth()) {
