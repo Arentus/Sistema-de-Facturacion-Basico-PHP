@@ -7,7 +7,6 @@
         <h5 class="modal-title" id="exampleModalLongTitle">Añadir Producto</h5>
         
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -68,12 +67,20 @@
 
 
 <!-- Editar Producto Modal -->
+
+
+
+
+
+
+
+
 <div class="modal fade" id="editModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLongTitle">Editar Producto</h5>
-        
+        <div class="feedback-ajax"></div>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 
           <span aria-hidden="true">&times;</span>
@@ -81,20 +88,22 @@
       </div>
 
       <div class="modal-body">
-      	<form id="addProductForm">
+      	<form id="editProductForm">
+		  
+		  <input type="hidden" id="id_producto" name="id_producto" value="0">
 
 		  <div class="form-group">
 		    <label for="product_name">Nombre</label>
-		    <input type="text" name="product_name" autofocus class="form-control" id="product_name" aria-describedby="productHelp" value="Producto #1">
+		    <input type="text" name="product_name" autofocus class="form-control namep" id="namep" aria-describedby="productHelp" value="0">
 		  </div>
 		  
 		  <div class="form-group">
 		    <label for="product_description">Descripcion</label>
-		    <input type="text" name="product_description" class="form-control" id="product_description" aria-describedby="productHelp" placeholder="Un titulo que describa tu producto">
+		    <input type="text" name="product_description" class="form-control" id="descriptionp" aria-describedby="productHelp" placeholder="Un titulo que describa tu producto">
 		  </div>
 		  <div class="form-group">
 		    <label for="exampleInputPassword1">Categoria</label>
-		     <select name="category_name" class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
+		     <select name="category_name" class="custom-select my-1 mr-sm-2 categoryp" id="inlineFormCustomSelectPref">
 			    <option value="0" selected>Elige...</option>
 
 			    <?php 
@@ -112,15 +121,15 @@
 
 		  <div class="form-group">
 		    <label for="prize">Precio</label>
-		    <input type="number" name="prize" class="form-control" id="prize_name" aria-describedby="productHelp" placeholder="Precio">
+		    <input type="number" name="prize" id="preciop" class="form-control" id="prize_name" aria-describedby="productHelp" placeholder="Precio">
 		  </div>  
 
 		  <div class="form-group">
 		    <label for="stock">Stock</label>
-		    <input type="number" name="stock" class="form-control" id="prize_name" aria-describedby="productHelp" placeholder="Cantidad de Articulos Disponibles">
+		    <input type="number" name="stock" class="form-control" id="stockp" aria-describedby="productHelp" placeholder="Cantidad de Articulos Disponibles">
 		  </div>
 
-        <button type="submit" id="edit_product" name="edit_product" class="btn btn-primary">Guardar</button>
+        <button type="submit" id="save_edited_product" name="edit_product" class="btn btn-primary">Guardar</button>
 
 		</form>
       </div>

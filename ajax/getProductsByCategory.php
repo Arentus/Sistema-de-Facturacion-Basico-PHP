@@ -20,7 +20,6 @@ $product = new Product();
 
 $result = $product->getAllProducts(0,N_PRODUCTOS_BYPAGE,$_GET['filter_category']);
 
-
 	if (!empty($result)) {
 
 	    $arrProductos = $result->fetchAll();

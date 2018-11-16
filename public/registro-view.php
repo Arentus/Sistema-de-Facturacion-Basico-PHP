@@ -16,18 +16,16 @@
 		$name = htmlspecialchars(trim($_POST['name']));
 		$email = htmlspecialchars($_POST['email']);
 		$password = htmlspecialchars(trim($_POST['password']));
-		$address = htmlspecialchars($_POST['address']);
 		$role = 1;
 
 		$checklist = array(
-			'nombre' => $_POST['name'],
-			'correo' => $_POST['email'],
-			'contraseña' => $_POST['password'],
-			'direccion' => $_POST['address']
+			'name' => $_POST['name'],
+			'email' => $_POST['email'],
+			'password' => $_POST['password'],
 		);
 
 		$tp = new Errors();
-		$errors = $tp->comp_errores($checklist);
+		$errors = $tp->check_errors($checklist);
 
 		if (empty($errors)) {	
 			
@@ -35,7 +33,7 @@
 
 			try{
 		
-				$uid = $user->create_user($name,$email,$password,$role,$address);
+				$uid = $user->create_user($name,$email,$password,$role);
 
 				echo '<br>';
 
@@ -114,11 +112,6 @@
 				    <label for="exampleInputEmail1">Contraseña</label>
 				    <input type="password" name="password" class="form-control" id="exampleInputEmail2" aria-describedby="emailHelp" placeholder="*********************">   
 				</div>   
-
-				  <div class="form-group">
-				    <label for="exampleFormControlTextarea1">Direccion</label>
-				    <input type="text" name="address" class="form-control" name="" placeholder="St Street 47, Ricaurte Plaza">
-				  </div>
 				<div class="checkbox mb-3">
 				<label>
 				  <input type="checkbox" value="remember-me">Acepto los <a href="terminos">Terminos y Condiciones</a> de Servicio.
@@ -158,50 +151,6 @@
 				});
 			});
 		});
-
-
-		/*
-		function ajaxRequest(){
-			 if (window.XMLHttpRequest) {
-		        return new XMLHttpRequest();
-		    } else if (window.ActiveXObject) {
-		        return new ActiveXObject("Microsoft.XMLHTTP");
-		    } else {
-		        alert("Browser does not support XMLHTTP.");
-		        return false;
-		    }
-		}
-
-		var username = document.getElementById('name');
-
-		username.addEventListener('change',()=>{
-
-			var req = new ajaxRequest();
-
-			req.open('POST','ajax/userExistsHandler.php',true);
-
-			req.send(username.value);
-			
-
-			var fj_data = JSON.stringify(data);
-			alert('fj_data');
-
-			req.onload = function(){
-				
-				if(req.status === 200){
-					//Success
-					document.getElementById('tdx').innerHTML = req.responseText;
-				}else{
-
-				}
-			}
-
-			req.onerror = function(){
-				//There was a connection error
-
-			}
-
-		});*/
 
 
 	</script>

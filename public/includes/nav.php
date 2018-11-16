@@ -7,7 +7,7 @@
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <span class="nav-link" style="color: white; cursor: default;"><i style="margin: 0 5px;" class="fas fa-crown"></i><?php echo $_SESSION['user_data']->nombre; ?></span>
+            <span class="nav-link" style="color: white; cursor: default;"><i style="margin: 0 5px;" class="fas fa-crown"></i><?php echo $_SESSION['user_data']->name; ?></span>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="facturas"><i class="far fa-file-alt"></i>Facturas</a>

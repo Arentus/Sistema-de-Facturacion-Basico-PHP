@@ -21,9 +21,9 @@ require_once 'class/user.php';
         $usernameEmail = $_POST['userdata'];
         $password = $_POST['password'];
 
-        $errores = $err->comp_errores(array('nombre o correo'=>$usernameEmail,'contraseña'=>$password));
+        $errors = $err->check_errors(array('name or email'=>$usernameEmail,'password'=>$password));
 
-        if (empty($errores)) {
+        if (empty($errors)) {
           if ($user->log_in($usernameEmail,$password)) {
             header('Location: dashboard');
           }

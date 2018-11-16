@@ -5,7 +5,7 @@
 <?php 
 
 	$tp = new Errors();
-	$res = $tp->dataExists('nombre',$_POST['name']);
+	$res = $tp->dataExists('name',$_POST['name']);
 
 	echo $res;
  ?>

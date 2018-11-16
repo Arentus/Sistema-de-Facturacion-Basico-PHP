@@ -2,16 +2,16 @@
 
 class User{
 
-	private $nombre;
-	private $correo;
+	private $name;
+	private $email;
 	private $password;
-	private $direccion;
+	private $addres;
 	private $db;
 	private $table;
 
 	public function __construct(){
 		$this->db = getDB();
-		$this->table = 'usuario';
+		$this->table = 'user';
 	}
 
 	public static function userIsAuth(){
@@ -22,14 +22,19 @@ class User{
 			return true;
 		}
 	}
+	public static function redir_signin(){
+		header('Location: inicio');
 
+	    $_SESSION['message'] = 'Parece que necesitas iniciar sesión antes de continuar...  ';
+	    die();
+	}
 	public function log_in($data,$password){
 
 		try{
 
 			$hashed_password = hash('sha256',$password);
 			
-			$stmt = $this->db->prepare("SELECT * FROM usuario WHERE (nombre=:data OR correo=:data) AND password=:hashed_password");
+			$stmt = $this->db->prepare("SELECT * FROM ".$this->table." WHERE (name=:data OR email=:data) AND password=:hashed_password");
 
 			$stmt->bindParam(":data",$data,PDO::PARAM_STR);
 			$stmt->bindParam(":hashed_password",$hashed_password,PDO::PARAM_STR);
@@ -39,8 +44,6 @@ class User{
 			$user_data = $stmt->fetch(PDO::FETCH_OBJ);
 			$this->db = null;
 
-			var_dump($user_data);
-			
 			if ($count) {
 				$_SESSION['user_data'] = $user_data;
 				return true;
@@ -49,14 +52,14 @@ class User{
 				return false;
 			}
 		}catch(PDOException $e){
-			echo "Error iniciando sesión ".$e->getMessage();
+			echo "[UserError] : Error SignIn ".$e->getMessage();
 		}
 	}
 
 	public function username_exists($name){
 		try{
 			
-			$stmt = $this->db->prepare("SELECT * FROM usuario WHERE nombre=:name");
+			$stmt = $this->db->prepare("SELECT * FROM ".$this->table." WHERE name=:name");
 			
 			$stmt->bindParam(":name",$name,PDO::PARAM_STR);
 
@@ -65,33 +68,32 @@ class User{
 			return $stmt->fetchAll(PDO::FETCH_ASSOC);
 			
 		}catch(PDOException $e){
-			echo "Erorr comprobando usuario : ".$e->getMessage();
+			echo "[UserError] usernam cannot be checked if exits : ".$e->getMessage();
 		}
 
 	}
 
-	public function create_user($nombre,$correo,$password,$role=2,$direccion){
+	public function create_user($name,$email,$password,$role=2){
 		
 		try{
 
-			$statement = $this->db->prepare("SELECT id FROM usuario WHERE correo=:correo"); 
+			$statement = $this->db->prepare("SELECT id FROM ".$this->table." WHERE email=:email"); 
 
-			$statement->bindParam(":correo", $correo,PDO::PARAM_STR);
+			$statement->bindParam(":email", $email,PDO::PARAM_STR);
 			
 			$statement->execute();
 
 			$count=$statement->rowCount();
 
-			if($count<1) { /* usuario no registrado en base de datos */
+			if($count<1) { /* user no registrado en base de datos */
 
-				$statement = $this->db->prepare("INSERT INTO usuario (nombre,correo,password,role,direccion) VALUES (:nombre,:correo,:hashed_password,:role,:direccion)");
+				$statement = $this->db->prepare("INSERT INTO ".$this->table." (name,email,password,role) VALUES (:name,:email,:hashed_password,:role)");
 
-				$statement->bindParam(":nombre",$nombre,PDO::PARAM_STR);
-				$statement->bindParam(":correo",$correo,PDO::PARAM_STR);
+				$statement->bindParam(":name",$name,PDO::PARAM_STR);
+				$statement->bindParam(":email",$email,PDO::PARAM_STR);
 				$statement->bindParam(":role",$role,PDO::PARAM_INT);
 				$hashed_password = hash('sha256',$password);
 				$statement->bindParam(":hashed_password",$hashed_password,PDO::PARAM_STR);
-				$statement->bindParam(":direccion",$direccion,PDO::PARAM_STR);
 				
 				$statement->execute();
 
@@ -110,11 +112,10 @@ class User{
 
 		}catch(PDOException $e){
 
-			echo 'Error registrando usuario: '.$e->getMessage();
+			echo '[UserError] Not Posible to Sign Up : '.$e->getMessage();
 		}
 
 	}
-
 
 }
 

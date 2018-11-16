@@ -5,6 +5,7 @@ require_once 'class/user.php';
 require_once 'class/error.php';
 require_once 'class/product.php';
 require_once 'class/category.php';
+require_once 'class/customer.php';
 
 ?>
 
@@ -27,7 +28,7 @@ require_once 'class/category.php';
 </head>
 <body>
 <?php require_once 'includes/nav.php' ?>
-<span class="addc"><button id="myBtn" class="btn btn-lg btn-default"><i class="fas fa-plus"></i>Añadir</button></span>
+<span class="addc"><a href="agregarCliente" id="myBtn" class="btn btn-lg btn-primary"><i class="fas fa-plus"></i>Añadir</a></span>
 
 	
 	<div class="container">
@@ -56,8 +57,11 @@ require_once 'class/category.php';
 				  <thead>
 				    <tr>
 				      <th scope="col">ID</th>
+				      <th scope="col">DNI</th>
 				      <th scope="col">Nombre</th>
 				      <th scope="col">Correo</th>
+				      <th scope="col">Nacionalidad</th>
+				      <th scope="col">Sexo</th>
 				      <th scope="col">Direccion</th>
 				    </tr>
 				  </thead>
@@ -65,15 +69,15 @@ require_once 'class/category.php';
 				    
 			  <?php 
 				  	$db = getDB();
-
-					$result = $db->query("SELECT COUNT(*) as clientes_totales FROM usuario WHERE role = 2");
+				  	$customer = new Customer();
+					$result = $db->query("SELECT COUNT(*) as clientes_totales FROM ".$customer->getTableName()." WHERE state = 1");
 
 					//hay clientes
 					if ($nClientes = $result->fetchColumn()) {
 							
 							$nPaginas = ceil( $nClientes / N_CLIENTES_BYPAGE );
 
-							$sql = 'SELECT * FROM usuario WHERE role = 2 ORDER BY id ASC LIMIT 0 , '.N_CLIENTES_BYPAGE;
+							$sql = 'SELECT * FROM '.$custom->getTableName().' WHERE state = 1 ORDER BY id ASC LIMIT 0 , '.N_CLIENTES_BYPAGE;
 
 							$resultClientes = $db->query($sql);
 
